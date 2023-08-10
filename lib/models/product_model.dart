@@ -1,57 +1,79 @@
-class ProductModel {
-  List<Product>? products;
+class CartModel {
+  List<Cart>? products;
 
-  ProductModel({
+  CartModel({
     this.products,
   });
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
-        products: json["products"] != null
-            ? (json['products'] as List)
-                .map((e) => Product.fromJson(e as Map<String, dynamic>))
+  factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
+        products: json["carts"] != null
+            ? (json['carts'] as List)
+                .map((e) => Cart.fromJson(e as Map<String, Object?>))
                 .toList()
             : [],
       );
 }
 
-class Product {
+class Cart {
   int? id;
-  String? title;
-  String? description;
-  int? price;
-  double? discountPercentage;
-  double? rating;
-  int? stock;
-  String? brand;
-  String? category;
-  String? thumbnail;
-  List<String>? images; // List<String> turida o'zgartirildi
+  List<Products>? product;
+  int? total;
+  int? discountedTotal;
+  int? userId;
+  int? totalProducts;
+  int? totalQuantity;
 
-  Product({
+  Cart({
     this.id,
-    this.title,
-    this.description,
-    this.price,
-    this.discountPercentage,
-    this.rating,
-    this.stock,
-    this.brand,
-    this.category,
-    this.thumbnail,
-    this.images,
+    this.product,
+    this.total,
+    this.discountedTotal,
+    this.userId,
+    this.totalProducts,
+    this.totalQuantity,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Cart.fromJson(Map<String, Object?> json) => Cart(
+        id: json["id"] as int?,
+        product: json["products"] != null
+            ? (json["products"] as List)
+                .map((e) => Products.fromJson(e as Map<String, Object?>))
+                .toList()
+            : [],
+        total: json["total"] as int?,
+        discountedTotal: json["discountedTotal"] as int?,
+        userId: json["userId"] as int?,
+        totalProducts: json["totalProducts"] as int?,
+        totalQuantity: json["totalQuantity"] as int?,
+      );
+}
+
+class Products {
+  int? id;
+  String? title;
+  num? price;
+  int? quantity;
+  int? total;
+  double? discountPercentage;
+  int? discountedPrice;
+
+  Products({
+    this.id,
+    this.title,
+    this.price,
+    this.quantity,
+    this.total,
+    this.discountPercentage,
+    this.discountedPrice,
+  });
+
+  factory Products.fromJson(Map<String, Object?> json) => Products(
         id: json["id"] as int?,
         title: json["title"] as String?,
-        description: json["description"] as String?,
-        price: json["price"] as int?,
+        price: json["price"] as num?,
+        quantity: json["quantity"] as int?,
+        total: json["total"] as int?,
         discountPercentage: json["discountPercentage"] as double?,
-        rating: json["rating"] as double?,
-        stock: json["stock"] as int?,
-        brand: json["brand"] as String?,
-        category: json["category"] as String?,
-        thumbnail: json["thumbnail"] as String?,
-        images: (json["images"] as List<dynamic>).cast<String>(), // List<String> ga o'girildi
+        discountedPrice: json["discountedPrice"] as int?,
       );
 }
